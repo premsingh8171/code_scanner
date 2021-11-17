@@ -11,8 +11,7 @@ import androidx.core.app.ActivityCompat.requestPermissions
 import android.content.pm.PackageManager
 
 import android.os.Build
-
-
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,9 +36,51 @@ class MainActivity : AppCompatActivity() {
 		// Callbacks
 		codeScanner.decodeCallback = DecodeCallback {
 			runOnUiThread {
-				Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
 			//	var url ="upi://pay?pa=shvmgupt16@okicici&pn=Shivam%20Gupt&aid=uGICAgIDAuIX5GA"
+//				upi://pay?pa=8989161520@okbizaxis&pn=VIKASH%20TECH&mc=7372&aid=uGICAgICtuLKwPQ&tr=BCR2DN6TSWJJBHQG
+
+//				 upi://pay?pa=9996468979@axl&pn=Rakesh&mc=0000&mode=02&purpose=00
+
 				Log.d("decodeCallback___", it.text)
+
+				try {
+					val removeKey1 ="upi:"
+					val endpoint ="="
+					val endpointChar = endpoint.single()
+
+					val sb: StringBuffer = StringBuffer(it.text)
+					removeKey(sb, removeKey1,endpointChar)
+					Log.d("decodeCallback___", sb.toString())
+
+					var removeKey2 ="%"
+					val endpoint2 =" "
+					val endpointChar2 = endpoint2.single()
+
+					val sb2: StringBuffer = StringBuffer(sb.toString())
+					 if (sb2.contains(removeKey2)){
+						 Log.d("matchinggg", "yes")
+						 removeKey2="%"
+					 }else{
+						 Log.d("matchinggg", "no")
+						 removeKey2="&mc"
+					 }
+
+					removeKey(sb2, removeKey2,endpointChar2)
+					Log.d("decodeCallback___", sb2.toString())
+
+					var upiIdOrName=sb2.toString()
+					var  upiId = upiIdOrName.split("&pn=")
+
+					//	8989161520@okbizaxis&pn=VIKASH
+
+					Log.d("decodeCallback___", "UpiId-- "+upiId[0]+"\nName-- "+upiId[1])
+
+					Toast.makeText(this, "Scan result: ${upiId[0]}--${upiId[1]}", Toast.LENGTH_LONG).show()
+
+				}catch (e:Exception){
+					e.printStackTrace()
+				}
+
 			}
 		}
 
@@ -80,4 +121,18 @@ class MainActivity : AppCompatActivity() {
 		codeScanner.releaseResources()
 		super.onPause()
 	}
+
+	//end  leftRecyclerView method
+	fun removeKey(url: StringBuffer, removeKey: String?,endPoint:Char){
+		val sIndex = url.indexOf(removeKey)
+		try {
+			while (url[sIndex] != endPoint) {
+				url.deleteCharAt(sIndex)
+			}
+			url.deleteCharAt(sIndex)
+		} catch (e: Exception) {
+			e.printStackTrace()
+		}
+	}
+
 }
