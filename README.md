@@ -2,6 +2,9 @@
 
 Code scanner library for [Android](https://developer.android.com), based on [ZXing](https://github.com/zxing/zxing)
 
+#### About app
+QR & Barcode Scanner app is the fastest QR code scanner / bar code scanner out there. QR & Barcode Scanner is an essential QR reader for every Android device.
+
 ### Features
 * Auto focus and flash light control
 * Portrait and landscape screen orientations
