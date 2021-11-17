@@ -243,7 +243,7 @@ public class MainFragment extends Fragment {
 ```
 
 ### Preview
-![Preview screenshot](https://raw.githubusercontent.com/premsingh8171/code-scanner/master/app/src/main/res/drawable/code_scanner.jpg)
+![Preview screenshot](https://raw.githubusercontent.com/premsingh8171/code_scanner/master/app/src/main/res/drawable/code_scanner.jpg)
 
 
 
