@@ -2,6 +2,9 @@
 
 Code scanner library for [Android](https://developer.android.com), based on [ZXing](https://github.com/zxing/zxing)
 
+#### About app
+QR & Barcode Scanner app is the fastest QR code scanner / bar code scanner out there. QR & Barcode Scanner is an essential QR reader for every Android device.
+
 ### Features
 * Auto focus and flash light control
 * Portrait and landscape screen orientations
@@ -24,9 +27,17 @@ Code scanner library for [Android](https://developer.android.com), based on [ZXi
 ### Usage ([sample])
 Add dependency:
 ```gradle
-dependencies {
-}
+	allprojects {
+		repositories {
+			maven { url 'https://jitpack.io' }
+		}
+	}
 ```
+```gradle
+		        implementation 'com.github.premsingh8171:code_scanner:1.0.0'
+
+```
+
 Add camera permission to AndroidManifest.xml (Don't forget about dynamic permissions on API >= 23):
 ```xml
 <uses-permission android:name="android.permission.CAMERA"/>
@@ -243,7 +254,7 @@ public class MainFragment extends Fragment {
 ```
 
 ### Preview
-![Preview screenshot](https://raw.githubusercontent.com/premsingh8171/code-scanner/master/app/src/main/res/drawable/code_scanner.jpg)
+![Preview screenshot](https://raw.githubusercontent.com/premsingh8171/code_scanner/master/app/src/main/res/drawable/code_scanner.jpg)
 
 
 
