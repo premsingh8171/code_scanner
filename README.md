@@ -27,9 +27,17 @@ QR & Barcode Scanner app is the fastest QR code scanner / bar code scanner out t
 ### Usage ([sample])
 Add dependency:
 ```gradle
-dependencies {
-}
+	allprojects {
+		repositories {
+			maven { url 'https://jitpack.io' }
+		}
+	}
 ```
+```gradle
+		        implementation 'com.github.premsingh8171:code_scanner:1.0.0'
+
+```
+
 Add camera permission to AndroidManifest.xml (Don't forget about dynamic permissions on API >= 23):
 ```xml
 <uses-permission android:name="android.permission.CAMERA"/>
