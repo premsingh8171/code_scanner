@@ -1,17 +1,13 @@
 package com.example.codescannerdemo
 
 import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.psd.code_scanner.*
-import androidx.core.app.ActivityCompat.requestPermissions
-
-import android.content.pm.PackageManager
-
-import android.os.Build
-import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
 		codeScanner = CodeScanner(this, scannerView)
 
-		// Parameters (default values)
+		// Parameters (default values)z
 		codeScanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
 		codeScanner.formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
 		// ex. listOf(BarcodeFormat.QR_CODE)
@@ -36,49 +32,48 @@ class MainActivity : AppCompatActivity() {
 		// Callbacks
 		codeScanner.decodeCallback = DecodeCallback {
 			runOnUiThread {
-			//	var url ="upi://pay?pa=shvmgupt16@okicici&pn=Shivam%20Gupt&aid=uGICAgIDAuIX5GA"
-//				upi://pay?pa=8989161520@okbizaxis&pn=VIKASH%20TECH&mc=7372&aid=uGICAgICtuLKwPQ&tr=BCR2DN6TSWJJBHQG
-
-//				 upi://pay?pa=9996468979@axl&pn=Rakesh&mc=0000&mode=02&purpose=00
+				//var url ="upi://pay?pa=shvmgupt16@okicici&pn=Shivam%20Gupt&aid=uGICAgIDAuIX5GA"
+				//upi://pay?pa=8989161520@okbizaxis&pn=VIKASH%20TECH&mc=7372&aid=uGICAgICtuLKwPQ&tr=BCR2DN6TSWJJBHQG
+				//upi://pay?pa=9996468979@axl&pn=Rakesh&mc=0000&mode=02&purpose=00
+				//upi://pay?pa=amitmitu91@okaxis&pn=Amit%20jangid&aid=uGICAgICN7Oj1UA
 
 				Log.d("decodeCallback___", it.text)
 
 				try {
-					val removeKey1 ="upi:"
-					val endpoint ="="
-					val endpointChar = endpoint.single()
+					if (it.text.startsWith("upi:")) {
+						val removeKey1 = "upi:"
+						val endpoint = "="
+						val endpointChar = endpoint.single()
 
-					val sb: StringBuffer = StringBuffer(it.text)
-					removeKey(sb, removeKey1,endpointChar)
-					Log.d("decodeCallback___", sb.toString())
+						val sb: StringBuffer = StringBuffer(it.text)
+						removeKey(sb, removeKey1, endpointChar)
 
-					var removeKey2 ="%"
-					val endpoint2 =" "
-					val endpointChar2 = endpoint2.single()
+						var removeKey2 = ""
+						val endpoint2 = " "
+						val endpointChar2 = endpoint2.single()
 
-					val sb2: StringBuffer = StringBuffer(sb.toString())
-					 if (sb2.contains(removeKey2)){
-						 Log.d("matchinggg", "yes")
-						 removeKey2="%"
-					 }else{
-						 Log.d("matchinggg", "no")
-						 removeKey2="&mc"
-					 }
+						val sb2: StringBuffer = StringBuffer(sb.toString())
+						if (sb2.contains("&mc")) {
+							removeKey2 = "&mc"
+						} else {
+							removeKey2 = "&aid"
+						}
 
-					removeKey(sb2, removeKey2,endpointChar2)
-					Log.d("decodeCallback___", sb2.toString())
+						removeKey(sb2, removeKey2, endpointChar2)
+						var upiIdOrName = sb2.toString()
+						var upiId = upiIdOrName.split("&pn=")
 
-					var upiIdOrName=sb2.toString()
-					var  upiId = upiIdOrName.split("&pn=")
+						Log.d("decodeCallback___", "UpiId-- " + upiId[0] + ",      Name-- " + upiId[1].replace("%20", " "))
 
-					//	8989161520@okbizaxis&pn=VIKASH
+						Toast.makeText(this, "Scan result: ${upiId[0]}--${upiId[1]}", Toast.LENGTH_LONG).show()
 
-					Log.d("decodeCallback___", "UpiId-- "+upiId[0]+"\nName-- "+upiId[1])
-
-					Toast.makeText(this, "Scan result: ${upiId[0]}--${upiId[1]}", Toast.LENGTH_LONG).show()
-
-				}catch (e:Exception){
+					}else{
+						Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
+					}
+				} catch (e: Exception) {
 					e.printStackTrace()
+					Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
+
 				}
 
 			}
